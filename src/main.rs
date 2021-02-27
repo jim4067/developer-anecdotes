@@ -35,8 +35,8 @@ fn main() {
         let anecdote = app.content.anecdote.clone();
         app.content.next.clone().connect_clicked(move |_| {
             let new_index = gen_random();
-            anecdote.set_label(ANECDOTES_LIST[new_index]); 
-            index_label.set_label(new_index.to_string().as_str());
+            anecdote.set_label(ANECDOTES_LIST[new_index]);
+            index_label.set_label(format!("{} / 6", new_index.to_string().as_str()).as_str());
         });
     }
 
@@ -47,7 +47,7 @@ fn main() {
 struct App {
     pub header: Header,
     pub window: Window,
-    pub content: Content
+    pub content: Content,
 }
 
 struct Header {
@@ -82,7 +82,11 @@ impl App {
             Inhibit(false)
         });
 
-        App { window, header,content }
+        App {
+            window,
+            header,
+            content,
+        }
     }
 }
 
@@ -103,7 +107,7 @@ impl Content {
 
         let anecdote_container = Box::new(Orientation::Horizontal, 0);
         let index_str = index.get_index();
-        let index_label = format!("{}{}", index_str, " / 6 -> ").to_string(); //concatenating in rust is not a walk in the park/ do not also get fond of the compiler making assumptions of your types
+        let index_label = format!("{} / 6 ->", index_str).to_string(); //concatenating in rust is not a walk in the park/ do not also get fond of the compiler making assumptions of your types
         let index_label = Label::new(Some(&index_label));
         let index = index.get_index();
         let anecdote = Label::new(Some(ANECDOTES_LIST[index]));
